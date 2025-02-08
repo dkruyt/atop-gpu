@@ -4,13 +4,11 @@
 ** The program 'atop' offers the possibility to view the activity of
 ** the system on system-level as well as process-level.
 **
-** This source-file contains functions to interface with the atopgpud
-** daemon that maintains statistics about the processor and memory
-** utilization of the GPUs.
+** This source-file contains the native NVML implementation for GPU monitoring.
 ** ================================================================
 ** Author:      Gerlof Langeveld
 ** E-mail:      gerlof.langeveld@atoptool.nl
-** Initial:     April/August 2018
+** Initial:     April 2024
 **
 ** This program is free software; you can redistribute it and/or modify it
 ** under the terms of the GNU General Public License as published by the
@@ -24,40 +22,18 @@
 */
 
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <nvml.h>
-#include <stdint.h>
 
 #include "atop.h"
 #include "photosyst.h"
 #include "photoproc.h"
 #include "gpucom.h"
 
-
-// Function prototypes
-static int rcvuntil(int sock, char *buf, int size);
-static void gputype_parse(char *buf);
-static void gpustat_parse(int version, char *buf, int maxgpu,
-                         struct pergpu *gg, struct gpupidstat *gp);
-static void gpuparse(int version, char *p, struct pergpu *gg);
-static void pidparse(int version, char *p, struct gpupidstat *gp);
-
-#define GPUDPORT    59123
-#define DUMMY       ' '
-#define GPUDELIM    '@'
-#define PIDDELIM    '#'
-#define APIVERSION  2
-
-static int actsock = -1;
-static int numgpus;
-static char **gpubusid;  // array with char* to busid strings
-static char **gputypes;  // array with char* to type strings
-static char *gputasks;   // array with chars with tasksupport booleans
+static nvmlDevice_t *devices = NULL;
+static unsigned int numDevices = 0;
 
 /*
 ** Open TCP connection to port of atopgpud and
