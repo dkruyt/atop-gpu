@@ -41,10 +41,10 @@ struct gpupidstat {
 };
 
 /* Function prototypes */
-int     gpud_init(void);
-int     gpud_statrequest(void);
-int     gpud_statresponse(int maxgpu, struct pergpu *ggs, struct gpupidstat **gps);
-void    gpumergeproc(struct tstat *curtpres, int ntaskpres,
+int     gpu_init(void);
+void    gpu_end(void);
+int     gpu_stats_read(struct pergpu *ggs, struct gpupidstat **gps);
+void    gpu_merge_proc(struct tstat *curtpres, int ntaskpres,
                      struct tstat *curpexit, int nprocexit,
                      struct gpupidstat *gpuproc, int nrgpuproc);
 
