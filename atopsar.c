@@ -1393,13 +1393,13 @@ gpuline(struct sstat *ss, struct tstat *ts, struct tstat **ps, int nactproc,
 		if (ss->gpu.gpu[i].memtotnow == 0)
 			ss->gpu.gpu[i].memtotnow = 1;
 
-		printf("%2ld/%9.9s %7s  %7s  %5lld%%  %5lldM %5lldM %4s  %s\n",
+		printf("%2ld/%9.9s %7s  %7s  %5lld%%  %5lldM %5lldM %4d  %s\n",
 			i, ss->gpu.gpu[i].busid,
 			fmt1, fmt2,
 			ss->gpu.gpu[i].memusenow*100/ss->gpu.gpu[i].memtotnow,
 			ss->gpu.gpu[i].memtotnow / 1024,
 			ss->gpu.gpu[i].memusenow / 1024,
-			ss->gpu.gpu[i].temp == -1 ? "N/A" : val2valstr(ss->gpu.gpu[i].temp, fmt1, 4, 0, 0),
+			ss->gpu.gpu[i].temp,
 			ss->gpu.gpu[i].type);
 	}
 
