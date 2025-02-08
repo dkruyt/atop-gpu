@@ -2899,9 +2899,6 @@ struct pridef pridef[] =
    {0,  "n",  'U',  udpv6head,	udpv6line,  	"udp  v6",                },
    {0,  "n",  't',  tcphead,	tcpline,  	"tcp        (general)",   },
    {0,  "n",  'T',  TCPhead,	TCPline,  	"tcp        (errors)",    },
-#if	HTTPSTATS
-   {0,  "n",  'o',  httphead,	httpline,  	"HTTP activity",          },
-#endif
    {0,  "",   'O',  topchead,	topcline,  	"top-3 processes cpu",    },
    {0,  "",   'G',  topmhead,	topmline,  	"top-3 processes memory", },
    {0,  "",   'D',  topdhead,	topdline,  	"top-3 processes disk",   },
