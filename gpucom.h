@@ -29,7 +29,10 @@
 #ifndef	__GPUCOM__
 #define	__GPUCOM__
 
-#define APIVERSION	1
+#define APIVERSION	2
+
+#define GPU_VENDOR_NVIDIA	'N'
+#define GPU_VENDOR_AMD   	'A'
 
 struct gpupidstat {
 	long		pid;

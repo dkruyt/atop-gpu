@@ -401,6 +401,13 @@ struct pergpu {
 	count_t	memperccum;		// cumulative memory percentage 
 					// -1 if not supported
 	count_t	memusecum;		// cumulative used memory in KiB
+	int	temp;			// temperature in degrees Celsius
+					// -1 if not supported
+	int	fanspeed;		// fan speed percentage
+					// -1 if not supported
+	count_t	power;			// power usage in milliwatts
+					// -1 if not supported
+	char	vendor;			// 'N' for NVIDIA, 'A' for AMD
 };
 
 struct gpustat {
