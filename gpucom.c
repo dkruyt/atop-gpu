@@ -22,10 +22,14 @@
 */
 
 #include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <nvml.h>
+#include <stdint.h>
 
 #include "atop.h"
 #include "photosyst.h"
@@ -34,6 +38,11 @@
 
 static nvmlDevice_t *devices = NULL;
 static unsigned int numDevices = 0;
+static int numgpus;
+static char **gpubusid;  // array with char* to busid strings
+static char **gputypes;  // array with char* to type strings
+static char *gputasks;   // array with chars with tasksupport booleans
+static int actsock = -1;
 
 /*
 ** Open TCP connection to port of atopgpud and
