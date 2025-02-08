@@ -939,6 +939,9 @@ pricumproc(struct sstat *sstat, struct devtstat *devtstat,
 	                "GPUMEMTOT:3 "
 	                "GPUMEMUSE:4 "
 	                "GPUMEMAVG:2 "
+	                "GPUTEMP:3 "
+	                "GPUFAN:2 "
+	                "GPUPOWER:4 "
 	                "GPUNRPROC:2 "
 	                "BLANKBOX:0 "
 	                "GPUTYPE:1 ",
