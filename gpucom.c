@@ -24,10 +24,14 @@
 */
 
 #include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <nvml.h>
+#include <stdint.h>
 
 #include "atop.h"
 #include "photosyst.h"
@@ -36,6 +40,26 @@
 
 static nvmlDevice_t *devices = NULL;
 static unsigned int numDevices = 0;
+
+// Function prototypes
+static int rcvuntil(int sock, char *buf, int size);
+static void gputype_parse(char *buf);
+static void gpustat_parse(int version, char *buf, int maxgpu,
+                         struct pergpu *gg, struct gpupidstat *gp);
+static void gpuparse(int version, char *p, struct pergpu *gg);
+static void pidparse(int version, char *p, struct gpupidstat *gp);
+
+#define GPUDPORT    59123
+#define DUMMY       ' '
+#define GPUDELIM    '@'
+#define PIDDELIM    '#'
+#define APIVERSION  2
+
+static int actsock = -1;
+static int numgpus;
+static char **gpubusid;  // array with char* to busid strings
+static char **gputypes;  // array with char* to type strings
+static char *gputasks;   // array with chars with tasksupport booleans
 
 /*
 ** Open TCP connection to port of atopgpud and

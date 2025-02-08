@@ -30,6 +30,7 @@
 #define	__GPUCOM__
 
 #include <nvml.h>
+#include <stdint.h>
 
 #define GPU_VENDOR_NVIDIA	'N'
 #define GPU_VENDOR_AMD   	'A'
