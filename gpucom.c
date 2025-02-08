@@ -38,8 +38,6 @@
 #include "photoproc.h"
 #include "gpucom.h"
 
-static nvmlDevice_t *devices = NULL;
-static unsigned int numDevices = 0;
 
 // Function prototypes
 static int rcvuntil(int sock, char *buf, int size);
