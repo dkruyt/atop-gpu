@@ -26,11 +26,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <nvml.h>
+#include <arpa/inet.h>
 
 #include "atop.h"
 #include "photosyst.h"
 #include "photoproc.h"
 #include "gpucom.h"
+
+/* Global variables */
+int actsock = -1;
+int numgpus;
+char **gpubusid;  // array with char* to busid strings
+char **gputypes;  // array with char* to type strings
+char *gputasks;   // array with chars with tasksupport booleans
 
 static nvmlDevice_t *devices = NULL;
 static unsigned int numDevices = 0;

@@ -31,6 +31,9 @@
 
 #include <nvml.h>
 #include <stdint.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 
 #define GPU_VENDOR_NVIDIA	'N'
 #define GPU_VENDOR_AMD   	'A'
@@ -61,5 +64,12 @@ static void gpustat_parse(int version, char *buf, int maxgpu,
                          struct pergpu *gg, struct gpupidstat *gp);
 static void gpuparse(int version, char *p, struct pergpu *gg);
 static void pidparse(int version, char *p, struct gpupidstat *gp);
+
+/* Global variables */
+extern int actsock;
+extern int numgpus;
+extern char **gpubusid;
+extern char **gputypes;
+extern char *gputasks;
 
 #endif
