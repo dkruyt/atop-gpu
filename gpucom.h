@@ -35,17 +35,31 @@
 #define GPU_VENDOR_NVIDIA	'N'
 #define GPU_VENDOR_AMD   	'A'
 
+#define GPUDPORT    59123
+#define DUMMY       ' '
+#define GPUDELIM    '@'
+#define PIDDELIM    '#'
+#define APIVERSION  2
+
 struct gpupidstat {
     long            pid;
     struct gpu      gpu;
 };
 
 /* Function prototypes */
-int     gpu_init(void);
-void    gpu_end(void);
-int     gpu_stats_read(struct pergpu *ggs, struct gpupidstat **gps);
-void    gpu_merge_proc(struct tstat *curtpres, int ntaskpres,
+int     gpud_init(void);
+int     gpud_statrequest(void);
+int     gpud_statresponse(int maxgpu, struct pergpu *ggs, struct gpupidstat **gps);
+void    gpumergeproc(struct tstat *curtpres, int ntaskpres,
                      struct tstat *curpexit, int nprocexit,
                      struct gpupidstat *gpuproc, int nrgpuproc);
+
+/* Static function prototypes */
+static int  rcvuntil(int sock, char *buf, int size);
+static void gputype_parse(char *buf);
+static void gpustat_parse(int version, char *buf, int maxgpu,
+                         struct pergpu *gg, struct gpupidstat *gp);
+static void gpuparse(int version, char *p, struct pergpu *gg);
+static void pidparse(int version, char *p, struct gpupidstat *gp);
 
 #endif
