@@ -1323,7 +1323,7 @@ cpuline(struct sstat *ss, struct tstat *ts, struct tstat **ps, int nactproc,
 static void
 gpuhead(int osvers, int osrel, int ossub)
 {
-	printf("   busaddr   gpubusy  membusy  memocc  memtot memuse tempC  gputype"
+	printf("   busaddr   gpubusy  membusy  memocc  memtot memuse  gputype"
 	       "   _gpu_");
 }
 
@@ -1393,13 +1393,12 @@ gpuline(struct sstat *ss, struct tstat *ts, struct tstat **ps, int nactproc,
 		if (ss->gpu.gpu[i].memtotnow == 0)
 			ss->gpu.gpu[i].memtotnow = 1;
 
-		printf("%2ld/%9.9s %7s  %7s  %5lld%%  %5lldM %5lldM %4d  %s\n",
+		printf("%2ld/%9.9s %7s  %7s  %5lld%%  %5lldM %5lldM  %s\n",
 			i, ss->gpu.gpu[i].busid,
 			fmt1, fmt2,
 			ss->gpu.gpu[i].memusenow*100/ss->gpu.gpu[i].memtotnow,
 			ss->gpu.gpu[i].memtotnow / 1024,
 			ss->gpu.gpu[i].memusenow / 1024,
-			ss->gpu.gpu[i].temp,
 			ss->gpu.gpu[i].type);
 	}
 
