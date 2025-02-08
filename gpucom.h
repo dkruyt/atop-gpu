@@ -29,21 +29,21 @@
 #ifndef	__GPUCOM__
 #define	__GPUCOM__
 
-#define APIVERSION	2
+#include <nvml.h>
 
 #define GPU_VENDOR_NVIDIA	'N'
 #define GPU_VENDOR_AMD   	'A'
 
 struct gpupidstat {
-	long		pid;
-	struct gpu	gpu;
+    long            pid;
+    struct gpu      gpu;
 };
 
-int	gpud_init(void);
-int	gpud_statrequest(void);
-int	gpud_statresponse(int, struct pergpu *, struct gpupidstat **);
+int     gpu_init(void);
+void    gpu_end(void);
+int     gpu_stats_read(struct pergpu *, struct gpupidstat **);
+void    gpu_merge_proc(struct tstat *, int,
+                      struct tstat *, int,
+                      struct gpupidstat *, int);
 
-void	gpumergeproc(struct tstat      *, int,
-                     struct tstat      *, int,
-                     struct gpupidstat *, int);
 #endif

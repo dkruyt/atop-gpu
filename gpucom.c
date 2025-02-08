@@ -24,39 +24,18 @@
 */
 
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <string.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <nvml.h>
 
 #include "atop.h"
 #include "photosyst.h"
 #include "photoproc.h"
 #include "gpucom.h"
 
-#define	DUMMY		' '
-#define	GPUDELIM	'@'
-#define	PIDDELIM	'#'
-
-#define	GPUDPORT	59123
-
-static void	gputype_parse(char *);
-
-static void	gpustat_parse(int, char *, int,
-		                      struct pergpu *, struct gpupidstat *);
-static void	gpuparse(int, char *, struct pergpu *);
-static void	pidparse(int, char *, struct gpupidstat *);
-static int	rcvuntil(int, char *, int);
-
-static int	actsock = -1;
-
-static int	numgpus;
-static char	**gpubusid;	// array with char* to busid strings
-static char	**gputypes;	// array with char* to type strings
-static char	*gputasks;	// array with chars with tasksupport booleans
+static nvmlDevice_t *devices = NULL;
+static unsigned int numDevices = 0;
 
 /*
 ** Open TCP connection to port of atopgpud and
