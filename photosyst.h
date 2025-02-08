@@ -401,8 +401,6 @@ struct pergpu {
 	count_t	memperccum;		// cumulative memory percentage 
 					// -1 if not supported
 	count_t	memusecum;		// cumulative used memory in KiB
-	count_t	power;			// power usage in milliwatts
-					// -1 if not supported
 	char	vendor;			// 'N' for NVIDIA, 'A' for AMD
 };
 
